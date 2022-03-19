@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
+    use ApiResponseTrait;
     /**
      * Display a listing of the resource.
      *
@@ -14,28 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $products = Product::get();
+        return $this->apiResponse($products,'Ok',200);
     }
 
     /**
@@ -46,20 +29,47 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        
+        if($product)
+        {
+            return $this->apiResponse($product,'Ok',200);
+        }
+
+        return $this->apiResponse(null,'The Product Not Found',404);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function store(Request $request)
     {
-        //
-    }
+        $validator  = Validator::make($request->all(),
+        [
+            'name'   => 'required|max:255',
+            'price'  => 'required',
+            'status' => 'required',
+            'rate'   => 'required',
+        ]);
 
+        if ($validator->fails())
+        {
+            return $this->apiResponse(null,$validator->errors(),400);
+        }
+
+        $product = Product::create($request->all());
+
+        if($product)
+        {
+            return $this->apiResponse($product,'The Product Saved',201);
+        }
+
+        return $this->apiResponse(null,'The Product Not Saved',400);
+    }
+    
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +79,32 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator  = Validator::make($request->all(),
+        [
+            'name'   => 'required|max:255',
+            'price'  => 'required',
+            'status' => 'required',
+            'rate'   => 'required',
+        ]);
+        
+        if ($validator->fails())
+        {
+            return $this->apiResponse(null,$validator->errors(),400);
+        }
+
+        $product = Product::find($id);
+
+        if(!$product)
+        {
+            return $this->apiResponse(null,'The Product Not Found',404);
+        }
+
+        $product->update($request->all());
+
+        if($product)
+        {
+            return $this->apiResponse($product,'The Product Updated',201);
+        }
     }
 
     /**
@@ -80,6 +115,18 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        if(!$product)
+        {
+            return $this->apiResponse(null,'The Product Not Found',404);
+        }
+
+        $product->delete($id);
+
+        if($product)
+        {
+            return $this->apiResponse(null,'The Product Deleted',200);
+        }
     }
 }

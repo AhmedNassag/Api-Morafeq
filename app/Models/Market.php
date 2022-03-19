@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Market extends Model
 {
     protected $table = 'markets';
-
+    protected $fillable = ['name','image','address','location','workingTime','rate','favourite','sub_sub_category_id','country_id'];
 
 
     public function subsubcategory()

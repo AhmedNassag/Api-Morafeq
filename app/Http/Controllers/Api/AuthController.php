@@ -33,7 +33,7 @@ class AuthController extends Controller
             'email'    => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'email'    => 'required',
-            'type'    => 'required',
+            'type'     => 'required',
         ]);
 
         if($validator->fails())
@@ -41,15 +41,12 @@ class AuthController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
+        $user = User::create(array_merge($validator->validated(),['password' => bcrypt($request->password)]));
 
         return response()->json
         ([
             'message' => 'User successfully registered',
-            'user' => $user
+            'user'    => $user,
         ], 201);
     }
 
@@ -72,7 +69,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (! $token = auth()->attempt($validator->validated()))
+        if (!$token = auth()->attempt($validator->validated()))
         {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

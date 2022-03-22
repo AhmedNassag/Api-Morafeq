@@ -46,14 +46,12 @@ Route::group(['middleware' => 'JwtMiddleware'],function()
     Route::post('/categories/{id}',[CategoryController::class,'update']);
     Route::post('/category/{id}',[CategoryController::class,'destroy']);
 
-
     //sub category api routes
     Route::get('/subcategories',[SubCategoryController::class,'index']);
     Route::get('/subcategories/{id}',[SubCategoryController::class,'show']);
     Route::post('/subcategories',[SubCategoryController::class,'store']);
     Route::post('/subcategories/{id}',[SubCategoryController::class,'update']);
     Route::post('/subcategory/{id}',[SubCategoryController::class,'destroy']);
-
 
     //sub sub category api routes
     Route::get('/subsubcategories',[SubsubCategoryController::class,'index']);
@@ -62,14 +60,12 @@ Route::group(['middleware' => 'JwtMiddleware'],function()
     Route::post('/subsubcategories/{id}',[SubsubCategoryController::class,'update']);
     Route::post('/subsubcategory/{id}',[SubsubCategoryController::class,'destroy']);
 
-
     //market api routes
     Route::get('/markets',[MarketController::class,'index']);
     Route::get('/markets/{id}',[MarketController::class,'show']);
     Route::post('/markets',[MarketController::class,'store']);
     Route::post('markets/{id}',[MarketController::class,'update']);
     Route::post('/market/{id}',[MarketController::class,'destroy']);
-
 
     //country api routes
     Route::get('/countries',[CountryController::class,'index']);
@@ -78,14 +74,12 @@ Route::group(['middleware' => 'JwtMiddleware'],function()
     Route::post('/countries/{id}',[CountryController::class,'update']);
     Route::post('/country/{id}',[CountryController::class,'destroy']);
 
-
     //region api routes
     Route::get('/regions',[RegionController::class,'index']);
     Route::get('/regions/{id}',[RegionController::class,'show']);
     Route::post('/regions',[RegionController::class,'store']);
     Route::post('/regions/{id}',[RegionController::class,'update']);
     Route::post('/region/{id}',[RegionController::class,'destroy']);
-
 
     //phone api routes
     Route::get('/phones',[PhoneController::class,'index']);
@@ -94,13 +88,13 @@ Route::group(['middleware' => 'JwtMiddleware'],function()
     Route::post('/phones/{id}',[PhoneController::class,'update']);
     Route::post('/phone/{id}',[PhoneController::class,'destroy']);
 
-
     //product api routes
     Route::get('/products',[ProductController::class,'index']);
     Route::get('/products/{id}',[ProductController::class,'show']);
     Route::post('/products',[ProductController::class,'store']);
     Route::post('/products/{id}',[ProductController::class,'update']);
     Route::post('/product/{id}',[ProductController::class,'destroy']);
+
 });
 
 
